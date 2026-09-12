@@ -1,0 +1,41 @@
+:root { font-family: "Hiragino Sans", "Noto Sans JP", system-ui, sans-serif; color: #2d2941; background: #f7f4ff; }
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 320px; min-height: 100vh; background: radial-gradient(circle at top, #e8e0ff, #f8f7fb 55%); }
+button { font: inherit; cursor: pointer; }
+.app-shell { width: min(100% - 32px, 560px); margin: 0 auto; padding: 28px 0 40px; }
+.header { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-bottom: 24px; }
+.brand h1 { margin: 0; font-size: clamp(1.7rem, 6vw, 2.45rem); letter-spacing: .04em; }
+.brand p { margin: 4px 0 0; color: #746e8d; font-weight: 700; font-size: .9rem; }
+.header-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 7px; }
+.score-box { min-width: 64px; padding: 6px 9px; border-radius: 9px; text-align: center; color: #fff; background: #635b9a; }
+.score-box span { display: block; font-size: .59rem; font-weight: 800; letter-spacing: .08em; opacity: .76; }
+.score-box strong { font-size: .9rem; }
+.button { border: 0; border-radius: 9px; padding: 9px 11px; color: #fff; background: #635b9a; font-weight: 800; }
+.button--secondary { color: #574f75; background: #e7e2f6; }
+.notice { margin: -10px 0 14px; color: #75632a; font-size: .8rem; text-align: center; }
+.game-area { position: relative; }
+.board { --gap: 10px; position: relative; width: 100%; aspect-ratio: 1; border-radius: 17px; padding: var(--gap); background: #b9b1ca; box-shadow: 0 14px 35px #51487d2b; touch-action: none; }
+.board__background { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--gap); width: 100%; height: 100%; }
+.board__cell { border-radius: 11px; background: #dcd8e6; }
+.board__tiles { position: absolute; inset: var(--gap); }
+.tile { position: absolute; display: grid; place-items: center; width: calc((100% - 3 * var(--gap)) / 4); height: calc((100% - 3 * var(--gap)) / 4); overflow: hidden; border-radius: 11px; background: var(--tile-background); color: #fff; box-shadow: inset 0 -4px #00000018; transition: left 120ms ease, top 120ms ease; }
+.tile--new { animation: appear 150ms ease-out; }
+.tile img { width: 65%; height: 65%; object-fit: contain; filter: drop-shadow(0 2px 2px #0005); }
+.tile__label { max-width: 92%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding: 2px 4px; font-size: clamp(.58rem, 2.4vw, .92rem); font-weight: 800; line-height: 1.1; text-align: center; text-shadow: 0 1px 2px #0008; }
+.tile:has(img) .tile__label { position: absolute; bottom: 5px; }
+.instructions { margin: 20px 0 0; color: #6e6884; text-align: center; font-size: .88rem; }
+.game-over { position: absolute; inset: 0; display: grid; place-items: center; border-radius: 17px; color: #fff; background: #312b4eb8; text-align: center; }
+.game-over p { margin: 0 0 13px; font-size: 2rem; font-weight: 900; letter-spacing: .08em; }
+.modal-backdrop { position: fixed; inset: 0; z-index: 5; display: grid; place-items: center; padding: 20px; background: #241f38a8; }
+.theme-picker { width: min(100%, 520px); max-height: min(620px, 90vh); overflow: auto; border-radius: 20px; padding: 22px; background: #fff; box-shadow: 0 18px 60px #17112766; }
+.theme-picker__heading { display: flex; align-items: start; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
+.theme-picker__heading p { margin: 0; color: #8a81b7; font-size: .72rem; font-weight: 900; letter-spacing: .15em; }
+.theme-picker__heading h2 { margin: 3px 0 0; font-size: 1.3rem; }
+.icon-button { width: 34px; height: 34px; border: 0; border-radius: 50%; color: #554e70; background: #eeeaf7; font-size: 1.4rem; }
+.theme-picker__grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(135px, 1fr)); gap: 12px; }
+.theme-card { min-height: 140px; overflow: hidden; border: 2px solid #e6e1f0; border-radius: 13px; padding: 0; color: #373047; background: #fff; text-align: left; }
+.theme-card--selected { border-color: #635b9a; box-shadow: 0 0 0 2px #d8d2f0; }
+.theme-card img, .theme-card__placeholder { display: grid; place-items: center; width: 100%; height: 98px; object-fit: cover; background: linear-gradient(135deg, #d4c9f3, #f3d8e8); color: #fff; font-size: 2rem; }
+.theme-card strong { display: block; padding: 10px; }
+@keyframes appear { from { transform: scale(.7); opacity: .4; } to { transform: scale(1); opacity: 1; } }
+@media (max-width: 600px) { .header { align-items: flex-start; flex-direction: column; } .header-actions { justify-content: flex-start; } }
