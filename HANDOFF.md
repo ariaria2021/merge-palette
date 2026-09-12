@@ -7,6 +7,7 @@
 Svelte 5 + Vite で作った、テーマ切替型の2048パズルです。ゲームのルールと最高スコアは共通で、microCMSから取得するテーマによりタイルの画像・名称・背景色を切り替えます。
 
 - アプリ名: マージパレット
+- リモートリポジトリ: `https://github.com/ariaria2021/merge-palette`
 - ローカルディレクトリ: `merge-palette`
 - 配信先想定: GitHub Pages（Viteの `base` は `/merge-palette/`）
 - 既存の `mythical-evolution-2048` と `tile-merge-game-frameworks` は参考元であり、このプロジェクトから変更しない。
@@ -90,13 +91,14 @@ VITE_MICROCMS_API_KEY=公開GET専用キー
 
 ## GitHub公開
 
-現時点ではGitHub CLIの認証トークンが無効で、リモート作成は未完了です。認証を復旧した人が以下を実行します。
+リモートは作成済みで、`main` ブランチが `origin/main` を追跡しています。別環境では次で取得します。
 
 ```bash
-gh auth login -h github.com
+git clone git@github.com:ariaria2021/merge-palette.git
 cd merge-palette
-gh repo create merge-palette --public --source=. --remote=origin --push
 ```
+
+HTTPSを利用する場合は、GitHubの認証方式に応じた資格情報が必要です。SSH鍵が設定済みなら、上記のSSH URLでアクセストークンを使わずにpushできます。
 
 GitHub Pagesでは、Node.js 24で `npm ci` と `npm run build` を実行し、生成された `dist` を公開します。ビルド環境には `VITE_MICROCMS_SERVICE_DOMAIN` と `VITE_MICROCMS_API_KEY` をSecretsとして設定します。ただし静的サイトでは後者がクライアントへ公開されるため、上記のGET専用制限が必須です。
 
