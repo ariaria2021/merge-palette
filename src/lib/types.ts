@@ -18,7 +18,6 @@ export interface ThemeStage {
 
 export interface GameTheme {
   id: string
-  slug: string
   name: string
   thumbnailUrl?: string
   stages: Record<number, ThemeStage>
