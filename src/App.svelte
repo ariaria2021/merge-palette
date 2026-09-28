@@ -26,7 +26,7 @@
 
   const selectTheme = (nextTheme: GameTheme) => {
     theme = nextTheme
-    localStorage.setItem(THEME_KEY, nextTheme.slug)
+    localStorage.setItem(THEME_KEY, nextTheme.id)
     themePickerOpen = false
   }
 
@@ -70,13 +70,13 @@
   onMount(() => {
     const storedBest = Number(localStorage.getItem(BEST_SCORE_KEY))
     if (Number.isFinite(storedBest) && storedBest > 0) bestScore = storedBest
-    const savedSlug = localStorage.getItem(THEME_KEY)
+    const savedId = localStorage.getItem(THEME_KEY)
 
     fetchThemes()
       .then((remoteThemes) => {
         if (!remoteThemes.length) throw new Error('利用できるテーマがありません。')
         themes = remoteThemes
-        theme = resolveSelectedTheme(remoteThemes, savedSlug)
+        theme = resolveSelectedTheme(remoteThemes, savedId)
       })
       .catch(() => {
         cmsUnavailable = true
@@ -111,4 +111,4 @@
   <p class="instructions">矢印キーまたはスワイプで、同じタイルをつなげよう。</p>
 </main>
 
-<ThemePicker open={themePickerOpen} {themes} selectedSlug={theme.slug} onSelect={selectTheme} onClose={() => themePickerOpen = false} />
+<ThemePicker open={themePickerOpen} {themes} selectedId={theme.id} onSelect={selectTheme} onClose={() => themePickerOpen = false} />

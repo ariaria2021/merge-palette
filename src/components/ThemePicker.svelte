@@ -4,13 +4,13 @@
   let {
     open,
     themes,
-    selectedSlug,
+    selectedId,
     onSelect,
     onClose,
   }: {
     open: boolean
     themes: GameTheme[]
-    selectedSlug: string
+    selectedId: string
     onSelect: (theme: GameTheme) => void
     onClose: () => void
   } = $props()
@@ -26,7 +26,7 @@
       <div class="theme-picker__grid">
         {#each themes as theme (theme.id)}
           <button
-            class:theme-card--selected={theme.slug === selectedSlug}
+            class:theme-card--selected={theme.id === selectedId}
             class="theme-card"
             type="button"
             onclick={() => onSelect(theme)}
