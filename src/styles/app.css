@@ -33,6 +33,9 @@ button { font: inherit; cursor: pointer; }
 .theme-picker__heading h2 { margin: 3px 0 0; font-size: 1.3rem; }
 .icon-button { width: 34px; height: 34px; border: 0; border-radius: 50%; color: #554e70; background: #eeeaf7; font-size: 1.4rem; }
 .theme-picker__grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(135px, 1fr)); gap: 12px; }
+.theme-picker__status { margin: 16px 0 0; color: #6e6884; font-size: .88rem; text-align: center; }
+.theme-picker__status--error { color: #9a4d58; }
+.theme-picker__status--error p { margin: 0 0 8px; }
 .theme-card { min-height: 140px; overflow: hidden; border: 2px solid #e6e1f0; border-radius: 13px; padding: 0; color: #373047; background: #fff; text-align: left; }
 .theme-card--selected { border-color: #635b9a; box-shadow: 0 0 0 2px #d8d2f0; }
 .theme-card img, .theme-card__placeholder { display: grid; place-items: center; width: 100%; height: 98px; object-fit: cover; background: linear-gradient(135deg, #d4c9f3, #f3d8e8); color: #fff; font-size: 2rem; }
