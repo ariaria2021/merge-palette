@@ -31,7 +31,7 @@ export interface RawTheme {
 
 export const numericTheme: GameTheme = {
   id: 'local-numbers',
-  name: '数字',
+  name: 'デフォルト',
   stages: {},
 }
 

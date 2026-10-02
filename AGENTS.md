@@ -25,10 +25,10 @@
 - Node.jsは `.nvmrc` / `.tool-versions` の **24.13.0** を使います。
 - 依存関係は `npm ci` で導入します。
 - 変更後は、該当しない理由がない限り `npm run check`、`npm test`、`npm run build` を実行します。
-- テーマ取得・切替を変更した場合は、数値テーマへのフォールバック、保存済みテーマの復元、テーマ切替で盤面とスコアが変わらないことを確認します。
+- テーマ取得・切替を変更した場合は、URL起動時に通信しないこと、デフォルト表示へのフォールバック、テーマ切替で盤面とスコアが変わらないことを確認します。
 
 ## 公開と素材
 
-- `main` へのpushで `.github/workflows/deploy.yml` がGitHub Pagesをデプロイします。Secrets未設定時も数字テーマでビルドできる状態を保ちます。
+- `main` へのpushで `.github/workflows/deploy.yml` がGitHub Pagesをデプロイします。Secrets未設定時もデフォルト表示でビルドできる状態を保ちます。
 - `assets/microcms/upload/` はmicroCMSへ登録する完成PNGです。見た目の変更を求められない限り再生成・削除しません。
 - 素材生成スクリプトはPython標準ライブラリだけで動作しますが、再生成後は512×512pxのサイズとCSVとの対応を確認します。

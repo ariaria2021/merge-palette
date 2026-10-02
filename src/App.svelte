@@ -6,18 +6,21 @@
   import ThemePicker from './components/ThemePicker.svelte'
   import { createGame, isGameOver, moveGrid } from './lib/game'
   import { fetchThemes } from './lib/microcms'
-  import { numericTheme, resolveSelectedTheme } from './lib/themes'
+  import { numericTheme } from './lib/themes'
+  import { createThemeOptionsLoader } from './lib/themeOptions'
+  import type { ThemeLoadStatus } from './lib/themeOptions'
   import type { Direction, GameTheme } from './lib/types'
 
   const BEST_SCORE_KEY = 'merge-palette-best-score'
-  const THEME_KEY = 'merge-palette-theme'
+  const themeOptions = createThemeOptionsLoader(fetchThemes)
   let grid = $state(createGame())
   let score = $state(0)
   let bestScore = $state(0)
-  let themes = $state<GameTheme[]>([numericTheme])
+  let themes = $state<GameTheme[]>(themeOptions.state.themes)
   let theme = $state<GameTheme>(numericTheme)
   let themePickerOpen = $state(false)
-  let cmsUnavailable = $state(false)
+  let themeLoadStatus = $state<ThemeLoadStatus>(themeOptions.state.status)
+  let themeLoadError = $state<string | null>(themeOptions.state.error)
   let touchStart = $state<{ x: number; y: number } | null>(null)
 
   const gameOver = $derived(isGameOver(grid))
@@ -26,8 +29,25 @@
 
   const selectTheme = (nextTheme: GameTheme) => {
     theme = nextTheme
-    localStorage.setItem(THEME_KEY, nextTheme.id)
     themePickerOpen = false
+  }
+
+  const loadThemeOptions = async () => {
+    const pending = themeOptions.load()
+    const loadingState = themeOptions.state
+    themes = loadingState.themes
+    themeLoadStatus = loadingState.status
+    themeLoadError = loadingState.error
+
+    const loadedState = await pending
+    themes = loadedState.themes
+    themeLoadStatus = loadedState.status
+    themeLoadError = loadedState.error
+  }
+
+  const openThemePicker = () => {
+    themePickerOpen = true
+    void loadThemeOptions()
   }
 
   const resetGame = () => {
@@ -70,18 +90,6 @@
   onMount(() => {
     const storedBest = Number(localStorage.getItem(BEST_SCORE_KEY))
     if (Number.isFinite(storedBest) && storedBest > 0) bestScore = storedBest
-    const savedId = localStorage.getItem(THEME_KEY)
-
-    fetchThemes()
-      .then((remoteThemes) => {
-        if (!remoteThemes.length) throw new Error('利用できるテーマがありません。')
-        themes = remoteThemes
-        theme = resolveSelectedTheme(remoteThemes, savedId)
-      })
-      .catch(() => {
-        cmsUnavailable = true
-        theme = numericTheme
-      })
 
     window.addEventListener('keydown', handleKeydown)
     return () => window.removeEventListener('keydown', handleKeydown)
@@ -91,11 +99,7 @@
 <svelte:head><title>マージパレット</title></svelte:head>
 
 <main class="app-shell">
-  <Header {score} {bestScore} themeName={theme.name} onReset={resetGame} onOpenThemes={() => themePickerOpen = true} />
-
-  {#if cmsUnavailable}
-    <p class="notice">テーマを読み込めなかったため、数字テーマで遊んでいます。</p>
-  {/if}
+  <Header {score} {bestScore} themeName={theme.name} onReset={resetGame} onOpenThemes={openThemePicker} />
 
   <div
     class="game-area"
@@ -111,4 +115,13 @@
   <p class="instructions">矢印キーまたはスワイプで、同じタイルをつなげよう。</p>
 </main>
 
-<ThemePicker open={themePickerOpen} {themes} selectedId={theme.id} onSelect={selectTheme} onClose={() => themePickerOpen = false} />
+<ThemePicker
+  open={themePickerOpen}
+  {themes}
+  selectedId={theme.id}
+  loading={themeLoadStatus === 'loading'}
+  error={themeLoadError}
+  onSelect={selectTheme}
+  onRetry={() => void loadThemeOptions()}
+  onClose={() => themePickerOpen = false}
+/>

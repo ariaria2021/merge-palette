@@ -5,13 +5,19 @@
     open,
     themes,
     selectedId,
+    loading,
+    error,
     onSelect,
+    onRetry,
     onClose,
   }: {
     open: boolean
     themes: GameTheme[]
     selectedId: string
+    loading: boolean
+    error: string | null
     onSelect: (theme: GameTheme) => void
+    onRetry: () => void
     onClose: () => void
   } = $props()
 </script>
@@ -40,6 +46,14 @@
           </button>
         {/each}
       </div>
+      {#if loading}
+        <p class="theme-picker__status" aria-live="polite">テーマを読み込んでいます…</p>
+      {:else if error}
+        <div class="theme-picker__status theme-picker__status--error" role="alert">
+          <p>{error}</p>
+          <button class="button button--secondary" type="button" onclick={onRetry}>再試行</button>
+        </div>
+      {/if}
     </div>
   </div>
 {/if}
