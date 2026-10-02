@@ -11,8 +11,8 @@ SOURCE = ROOT / "source"
 SIZE = 512
 VALUES = [2 ** (index + 1) for index in range(12)]
 THEMES = [
-    ("crystal", "光の結晶", ["芽晶", "淡晶", "水晶", "翠晶", "碧晶", "藍晶", "紫晶", "紅晶", "金晶", "虹晶", "星晶", "光晶"]),
-    ("night-sky", "夜空のしるし", ["星屑", "微光", "双星", "四つ星", "星環", "輝星", "星輪", "光冠", "星雲", "銀河", "星座", "宇宙"]),
+    ("crystal", "光の結晶", [f"第{index}晶" for index in range(1, 13)]),
+    ("night-sky", "夜空のしるし", [f"第{index}星" for index in range(1, 13)]),
 ]
 
 
